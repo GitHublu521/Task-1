@@ -1,0 +1,12 @@
+{
+  "epochs": 10,
+  "batch_size": 64,
+  "device": "auto",
+  "results_dir": "results",
+  "grid": {
+    "hidden_dims": [[256], [256, 128], [512, 256, 128]],
+    "activation": ["relu", "sigmoid", "gelu"],
+    "optimizer": ["sgd", "adam"],
+    "lr": [0.01, 0.001]
+  }
+}

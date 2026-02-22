@@ -1,0 +1,35 @@
+name: Autograding
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  grade:
+    name: Autograding
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ── Gate: Python syntax check ──────────────────────────────────
+      # If this fails, the student gets 0 — all subsequent steps are skipped.
+      - name: "Check: Python syntax (prerequisite)"
+        run: python tests/test_syntax.py
+
+      # ── Required: Result files + summary (100 pts) ─────────────────
+      - name: "Check: Result files and summary (100 pts)"
+        run: python tests/test_results.py
+
+      # ── Bonus: Cosine LR scheduler (20 pts) ────────────────────────
+      - name: "Check: Bonus — Cosine LR scheduler results (20 pts)"
+        run: python tests/test_bonus.py
+        continue-on-error: true
