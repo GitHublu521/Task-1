@@ -5,7 +5,7 @@
 - **Dataset**: MNIST (60k train / 10k test), normalized with mean=0.1307, std=0.3081
 - **Epochs**: 10
 - **Batch size**: 64
-- **Device**: <!-- fill in: cpu / cuda / mps -->
+- **Device**: mps
 
 ## Experiment Grid
 
@@ -22,29 +22,26 @@
 
 ### 1. Activation Functions
 
-<!-- TODO: Describe which activation performed best and why. Reference results/compare_activation.png -->
-
+ReLU and GELU performed best, achieving similar high test accuracy (above 95%). Sigmoid performed significantly worse (around 78%) because it suffers from the vanishing gradient problem. In deeper networks, Sigmoid saturates easily, causing gradients to become extremely small during backpropagation, which hinders effective weight updates in earlier layers.
 ### 2. Optimizers
 
-<!-- TODO: Compare SGD vs Adam. Reference results/compare_optimizer.png -->
+Adam outperformed SGD by a large margin in terms of both convergence speed and final accuracy. Adam utilizes adaptive learning rates and momentum, allowing it to navigate the loss landscape more efficiently.
 
 ### 3. Architecture Depth & Width
 
-<!-- TODO: Discuss how the number of layers and hidden sizes affected accuracy -->
+Increasing the network depth (from 1 to 3 hidden layers) generally improved the model's capacity to represent complex patterns in the MNIST dataset, leading to lower training loss. However, deeper models like [512, 256, 128] also required more computational time per epoch.
 
 ### 4. Learning Rate
 
-<!-- TODO: Discuss the effect of learning rate for each optimizer -->
+A higher learning rate (0.01) with Adam sometimes led to slight oscillations in loss, while a smaller rate (0.001) provided smoother convergence. For SGD, the 0.01 learning rate was necessary as 0.001 resulted in excessively slow learning.
 
 ## Best Configuration
 
-<!-- TODO: Fill in the table below after running experiments -->
-
 | Metric | Value |
 |---|---|
-| Config | <!-- TODO --> |
-| Best test accuracy | <!-- TODO --> |
-| Final train loss | <!-- TODO --> |
+| Config | [512, 256, 128] / gelu / adam / 0.001 |
+| Best test accuracy | 0.9826 |
+| Final train loss | 0.021667001707347422 |
 
 ## Training Curves
 
